@@ -1,16 +1,6 @@
 import React from "react";
-import {
-  Window,
-  WindowHeader,
-  WindowContent,
-  Panel,
-  Counter,
-  Avatar,
-  Button,
-} from "react95";
-import styled from "styled-components";
+import { WindowHeader, WindowContent, Avatar } from "react95";
 import bugIcon from "../../assets/bug.svg";
-import smileyFace from "../../assets/smileyface.svg";
 import numberOne from "../../assets/numbers/one.svg";
 import numberTwo from "../../assets/numbers/two.svg";
 import numberThree from "../../assets/numbers/three.svg";
@@ -18,13 +8,8 @@ import numberFour from "../../assets/numbers/four.svg";
 import numberFive from "../../assets/numbers/five.svg";
 import numberSix from "../../assets/numbers/six.svg";
 import numberSeven from "../../assets/numbers/seven.svg";
-
-const BoardGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px 0;
-  justify-content: center;
-`;
+import CountersPanel from "../CountersPanel/index";
+import { BoardGrid, StyledWindow, Number } from "./styles";
 
 const GameBoard = ({ boardSize }) => {
   const createBoard = (size) => {
@@ -158,31 +143,10 @@ const GameBoard = ({ boardSize }) => {
   const board = [...initBoard(10, boardSize)];
 
   return (
-    <Window
-      style={{
-        width: 300,
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-      }}
-    >
+    <StyledWindow>
       <WindowHeader>Bugsweeper</WindowHeader>
       <WindowContent>
-        <Panel
-          variant="well"
-          style={{
-            padding: 7,
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Counter value={10} size="sm" style={{ maxWidth: 50, padding: 4 }} />
-          <Button square>
-            <img src={smileyFace} style={{ width: 20, height: 20 }} alt=":)" />
-          </Button>
-          <Counter value={0} size="sm" style={{ maxWidth: 50, padding: 4 }} />
-        </Panel>
+        <CountersPanel minesNumber={10} flagsNumber={0} />
         <BoardGrid>
           {board.map((row) =>
             row.map((column, id) => {
@@ -193,11 +157,10 @@ const GameBoard = ({ boardSize }) => {
               } else if (column.neighbouringBombCount > 0) {
                 return (
                   <Avatar square size={32} key={`counter${id}`}>
-                    <img
+                    <Number
                       src={renderNumberAvatarSource(
                         column.neighbouringBombCount
                       )}
-                      style={{ height: 20, width: 20 }}
                       alt={column.neighbouringBombCount}
                     />
                   </Avatar>
@@ -209,7 +172,7 @@ const GameBoard = ({ boardSize }) => {
           )}
         </BoardGrid>
       </WindowContent>
-    </Window>
+    </StyledWindow>
   );
 };
 
