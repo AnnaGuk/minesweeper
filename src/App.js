@@ -33,6 +33,7 @@ const GlobalStyles = createGlobalStyle`
 
 //TO DO: beginner/intermediate/expert
 //Beginner (8x8, 10 mines), Intermediate (16x16, 40 mines) and Expert (24x24, 99 mines)
+// <div>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
 const App = () => {
   return (

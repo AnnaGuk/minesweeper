@@ -11,6 +11,13 @@ import {
 import styled from "styled-components";
 import bugIcon from "../../assets/bug.svg";
 import smileyFace from "../../assets/smileyface.svg";
+import numberOne from "../../assets/numbers/one.svg";
+import numberTwo from "../../assets/numbers/two.svg";
+import numberThree from "../../assets/numbers/three.svg";
+import numberFour from "../../assets/numbers/four.svg";
+import numberFive from "../../assets/numbers/five.svg";
+import numberSix from "../../assets/numbers/six.svg";
+import numberSeven from "../../assets/numbers/seven.svg";
 
 const BoardGrid = styled.div`
   display: flex;
@@ -30,6 +37,7 @@ const GameBoard = ({ boardSize }) => {
           isBomb: false,
           isEmpty: true,
           isFlagged: false,
+          neighbouringBombCount: 0,
         };
       }
     }
@@ -45,6 +53,7 @@ const GameBoard = ({ boardSize }) => {
       const column = Math.floor(Math.random() * boardSize);
 
       if (!arr[row][column].isBomb) {
+        arr[row][column].isEmpty = false;
         arr[row][column].isBomb = true;
         bombCounter++;
       }
@@ -53,10 +62,97 @@ const GameBoard = ({ boardSize }) => {
     return arr;
   };
 
+  const countNeighbouringBombs = (arr, maxNum) => {
+    for (let i = 0; i < maxNum; i++) {
+      for (let j = 0; j < maxNum; j++) {
+        if (arr[i][j].isBomb === true) {
+          //mark upper rows
+          if (
+            i > 0 &&
+            j > 0 &&
+            arr[i - 1][j - 1] &&
+            !arr[i - 1][j - 1].isBomb
+          ) {
+            arr[i - 1][j - 1].isEmpty = false;
+            arr[i - 1][j - 1].neighbouringBombCount++;
+          }
+          if (i > 0 && arr[i - 1][j] && !arr[i - 1][j].isBomb) {
+            arr[i - 1][j].isEmpty = false;
+            arr[i - 1][j].neighbouringBombCount++;
+          }
+          if (
+            i > 0 &&
+            j <= maxNum - 1 &&
+            arr[i - 1][j + 1] &&
+            !arr[i - 1][j + 1].isBomb
+          ) {
+            arr[i - 1][j + 1].isEmpty = false;
+            arr[i - 1][j + 1].neighbouringBombCount++;
+          }
+          // check neighbouring columns
+          if (j > 0 && arr[i][j - 1] && !arr[i][j - 1].isBomb) {
+            arr[i][j - 1].isEmpty = false;
+            arr[i][j - 1].neighbouringBombCount++;
+          }
+          if (j <= maxNum - 1 && arr[i][j + 1] && !arr[i][j + 1].isBomb) {
+            arr[i][j + 1].isEmpty = false;
+            arr[i][j + 1].neighbouringBombCount++;
+          }
+          //check next row
+          if (
+            i < maxNum - 1 &&
+            j > 0 &&
+            arr[i + 1][j - 1] &&
+            !arr[i + 1][j - 1].isBomb
+          ) {
+            arr[i + 1][j - 1].isEmpty = false;
+            arr[i + 1][j - 1].neighbouringBombCount++;
+          }
+          if (i < maxNum - 1 && arr[i + 1][j] && !arr[i + 1][j].isBomb) {
+            arr[i + 1][j].isEmpty = false;
+            arr[i + 1][j].neighbouringBombCount++;
+          }
+          if (
+            i < maxNum - 1 &&
+            j <= maxNum - 1 &&
+            arr[i + 1][j + 1] &&
+            !arr[i + 1][j + 1].isBomb
+          ) {
+            arr[i + 1][j + 1].isEmpty = false;
+            arr[i + 1][j + 1].neighbouringBombCount++;
+          }
+        }
+      }
+    }
+    return arr;
+  };
+
+  const renderNumberAvatarSource = (num) => {
+    switch (num) {
+      case 1:
+        return numberOne;
+      case 2:
+        return numberTwo;
+      case 3:
+        return numberThree;
+      case 4:
+        return numberFour;
+      case 5:
+        return numberFive;
+      case 6:
+        return numberSix;
+      case 7:
+        return numberSeven;
+      default:
+        break;
+    }
+  };
+
   const initBoard = (bombCount, boardSize) => {
     const board = createBoard(boardSize);
     const boardWithBombs = generateBombs(board, bombCount, boardSize);
-    return boardWithBombs;
+    const finalBoard = countNeighbouringBombs(boardWithBombs, boardSize);
+    return finalBoard;
   };
 
   const board = [...initBoard(10, boardSize)];
@@ -89,13 +185,27 @@ const GameBoard = ({ boardSize }) => {
         </Panel>
         <BoardGrid>
           {board.map((row) =>
-            row.map((column, id) =>
-              column.isBomb ? (
-                <Avatar square src={bugIcon} size={32} />
-              ) : (
-                <Avatar square size={32} key={`button${id}`} />
-              )
-            )
+            row.map((column, id) => {
+              if (column.isBomb) {
+                return (
+                  <Avatar square src={bugIcon} size={32} key={`bug${id}`} />
+                );
+              } else if (column.neighbouringBombCount > 0) {
+                return (
+                  <Avatar square size={32} key={`counter${id}`}>
+                    <img
+                      src={renderNumberAvatarSource(
+                        column.neighbouringBombCount
+                      )}
+                      style={{ height: 20, width: 20 }}
+                      alt={column.neighbouringBombCount}
+                    />
+                  </Avatar>
+                );
+              } else {
+                return <Avatar square size={32} key={`button${id}`} />;
+              }
+            })
           )}
         </BoardGrid>
       </WindowContent>
