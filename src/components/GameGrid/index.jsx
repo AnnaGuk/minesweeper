@@ -1,5 +1,5 @@
 import React from "react";
-import { WindowHeader, WindowContent, Avatar } from "react95";
+import { WindowHeader, WindowContent } from "react95";
 import bugIcon from "../../assets/bug.svg";
 import numberOne from "../../assets/numbers/one.svg";
 import numberTwo from "../../assets/numbers/two.svg";
@@ -9,7 +9,7 @@ import numberFive from "../../assets/numbers/five.svg";
 import numberSix from "../../assets/numbers/six.svg";
 import numberSeven from "../../assets/numbers/seven.svg";
 import CountersPanel from "../CountersPanel/index";
-import { BoardGrid, StyledWindow, Number } from "./styles";
+import { BoardGrid, StyledWindow, ButtonIcon, SmallButton } from "./styles";
 
 const GameBoard = ({ boardSize }) => {
   const createBoard = (size) => {
@@ -23,6 +23,9 @@ const GameBoard = ({ boardSize }) => {
           isEmpty: true,
           isFlagged: false,
           neighbouringBombCount: 0,
+          isOpen: false,
+          row: i,
+          column: j,
         };
       }
     }
@@ -112,7 +115,7 @@ const GameBoard = ({ boardSize }) => {
     return arr;
   };
 
-  const renderNumberAvatarSource = (num) => {
+  const renderNumberSource = (num) => {
     switch (num) {
       case 1:
         return numberOne;
@@ -142,6 +145,11 @@ const GameBoard = ({ boardSize }) => {
 
   const board = [...initBoard(10, boardSize)];
 
+  const openField = (row, col) => {
+    board[row][col].isOpen = true;
+    console.log(board[row][col]);
+  };
+
   return (
     <StyledWindow>
       <WindowHeader>Bugsweeper</WindowHeader>
@@ -149,26 +157,29 @@ const GameBoard = ({ boardSize }) => {
         <CountersPanel minesNumber={10} flagsNumber={0} />
         <BoardGrid>
           {board.map((row) =>
-            row.map((column, id) => {
-              if (column.isBomb) {
-                return (
-                  <Avatar square src={bugIcon} size={32} key={`bug${id}`} />
-                );
-              } else if (column.neighbouringBombCount > 0) {
-                return (
-                  <Avatar square size={32} key={`counter${id}`}>
-                    <Number
-                      src={renderNumberAvatarSource(
-                        column.neighbouringBombCount
-                      )}
-                      alt={column.neighbouringBombCount}
-                    />
-                  </Avatar>
-                );
-              } else {
-                return <Avatar square size={32} key={`button${id}`} />;
-              }
-            })
+            row.map((column, id) => (
+              <SmallButton
+                square
+                onClick={() => openField(column.row, column.column)}
+                key={`button${id}`}
+                variant={column.isOpen ? "flat" : "default"}
+              >
+                {column.isOpen ? (
+                  <ButtonIcon
+                    src={
+                      column.isBomb
+                        ? bugIcon
+                        : renderNumberSource(column.neighbouringBombCount)
+                    }
+                    alt={
+                      column.isBomb ? "*" : `${column.neighbouringBombCount}`
+                    }
+                  />
+                ) : (
+                  " "
+                )}
+              </SmallButton>
+            ))
           )}
         </BoardGrid>
       </WindowContent>

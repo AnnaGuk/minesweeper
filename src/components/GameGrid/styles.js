@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Window } from "react95";
+import { Window, Button } from "react95";
 
 export const BoardGrid = styled.div`
   display: flex;
@@ -16,7 +16,12 @@ export const StyledWindow = styled(Window)`
   transform: translate(-50%, -50%);
 `;
 
-export const Number = styled.img`
+export const ButtonIcon = styled.img`
   height: 20px;
   width: 20px;
+`;
+
+export const SmallButton = styled(Button)`
+  width: 32px;
+  height: 32px;
 `;
