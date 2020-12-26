@@ -17,11 +17,12 @@ export const StyledWindow = styled(Window)`
 `;
 
 export const ButtonIcon = styled.img`
-  height: 20px;
-  width: 20px;
+  height: 22px;
+  width: 22px;
 `;
 
 export const SmallButton = styled(Button)`
   width: 32px;
   height: 32px;
+  background-color: lightgrey;
 `;
