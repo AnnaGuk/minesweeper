@@ -1,11 +1,12 @@
+import React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { styleReset, AppBar, Toolbar, Button } from "react95";
+import { styleReset } from "react95";
 import original from "react95/dist/themes/original";
 // original Windows95 font
 import ms_sans_serif from "react95/dist/fonts/ms_sans_serif.woff2";
 import ms_sans_serif_bold from "react95/dist/fonts/ms_sans_serif_bold.woff2";
 
-import GameBoard from "./components/GameGrid/index.jsx";
+import Game from "./components/Game/index";
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -41,12 +42,7 @@ const App = () => {
       <div>
         <GlobalStyles />
         <ThemeProvider theme={original}>
-          <AppBar>
-            <Toolbar style={{ justifyContent: "space-between" }}>
-              <Button>Default</Button>
-            </Toolbar>
-          </AppBar>
-          <GameBoard boardSize={8} />
+          <Game />
         </ThemeProvider>
       </div>
     </div>

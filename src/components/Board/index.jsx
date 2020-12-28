@@ -1,6 +1,7 @@
 import React from "react";
 import { WindowHeader, WindowContent } from "react95";
 import bugIcon from "../../assets/bug.svg";
+import flagIcon from "../../assets/flag.svg";
 import numberOne from "../../assets/numbers/one.svg";
 import numberTwo from "../../assets/numbers/two.svg";
 import numberThree from "../../assets/numbers/three.svg";
@@ -10,14 +11,8 @@ import numberSix from "../../assets/numbers/six.svg";
 import numberSeven from "../../assets/numbers/seven.svg";
 import CountersPanel from "../CountersPanel/index";
 import { BoardGrid, StyledWindow, ButtonIcon, SmallButton } from "./styles";
-import { initBoard } from "./helpers";
-import { reducer } from "./reducer";
 
-const GameBoard = ({ boardSize }) => {
-  const initialState = initBoard(10, boardSize);
-
-  const [board, dispatch] = React.useReducer(reducer, initialState);
-
+const GameBoard = ({ board, dispatch, size, gameState, gameVariant }) => {
   const renderNumberSource = (num) => {
     switch (num) {
       case 1:
@@ -40,18 +35,32 @@ const GameBoard = ({ boardSize }) => {
   };
 
   return (
-    <StyledWindow>
+    <StyledWindow size={size}>
       <WindowHeader>Bugsweeper</WindowHeader>
       <WindowContent>
-        <CountersPanel minesNumber={10} flagsNumber={0} />
+        <CountersPanel
+          gameState={gameState}
+          minesNumber={10}
+          flagsNumber={0}
+          dispatch={dispatch}
+          gameVariant={gameVariant}
+        />
         <BoardGrid>
           {board.map((row) =>
             row.map((column, id) => (
               <SmallButton
+                size={size}
                 square
                 onClick={() =>
                   dispatch({
                     type: "openField",
+                    row: column.row,
+                    col: column.column,
+                  })
+                }
+                onContextMenu={() =>
+                  dispatch({
+                    type: "toggleFlag",
                     row: column.row,
                     col: column.column,
                   })
@@ -70,6 +79,8 @@ const GameBoard = ({ boardSize }) => {
                       column.isBomb ? "*" : `${column.neighbouringBombCount}`
                     }
                   />
+                ) : column.isFlagged ? (
+                  <ButtonIcon src={flagIcon} alt="f" />
                 ) : (
                   " "
                 )}

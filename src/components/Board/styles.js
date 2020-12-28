@@ -9,9 +9,14 @@ export const BoardGrid = styled.div`
 `;
 
 export const StyledWindow = styled(Window)`
-  width: 300px;
+  width: ${({ size }) =>
+    size === "beginner"
+      ? "300px"
+      : size === "intermediate"
+      ? "560px"
+      : "650px"};
   position: absolute;
-  top: 50%;
+  top: ${({ size }) => (size === "expert" ? "53%" : "50%")};
   left: 50%;
   transform: translate(-50%, -50%);
 `;
@@ -22,7 +27,7 @@ export const ButtonIcon = styled.img`
 `;
 
 export const SmallButton = styled(Button)`
-  width: 32px;
-  height: 32px;
+  width: ${({ size }) => (size === "expert" ? "25px" : "32px")};
+  height: ${({ size }) => (size === "expert" ? "25px" : "32px")};
   background-color: lightgrey;
 `;

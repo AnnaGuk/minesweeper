@@ -100,5 +100,25 @@ export const initBoard = (bombCount, boardSize) => {
   const board = createBoard(boardSize);
   const boardWithBombs = generateBombs(board, bombCount, boardSize);
   const finalBoard = countNeighbouringBombs(boardWithBombs, boardSize);
+  console.log(finalBoard);
   return finalBoard;
+};
+
+export const getBoardSizeFromBoardVariant = (variant) => {
+  switch (variant) {
+    case "beginner":
+      return { bombCount: 10, boardSize: 8 };
+    case "intermediate":
+      return { bombCount: 40, boardSize: 16 };
+    case "expert":
+      return { bombCount: 99, boardSize: 24 };
+    default:
+      return { bombCount: 10, boardSize: 8 };
+  }
+};
+
+export const renderBoard = (variant) => {
+  const { bombCount, boardSize } = getBoardSizeFromBoardVariant(variant);
+  const initialState = initBoard(bombCount, boardSize);
+  return initialState;
 };
