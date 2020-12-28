@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Panel, Counter } from "react95";
+import { Panel, Counter, Button } from "react95";
 
 export const StyledPanel = styled(Panel)`
   padding: 7px;
@@ -15,4 +15,10 @@ export const StyledCounter = styled(Counter)`
 export const SmileyButton = styled.img`
   width: 20px;
   height: 20px;
+`;
+
+export const StyledButton = styled(Button)`
+  &:after {
+    content: none;
+  }
 `;

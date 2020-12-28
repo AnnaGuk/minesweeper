@@ -30,4 +30,8 @@ export const SmallButton = styled(Button)`
   width: ${({ size }) => (size === "expert" ? "25px" : "32px")};
   height: ${({ size }) => (size === "expert" ? "25px" : "32px")};
   background-color: lightgrey;
+
+  &:after {
+    content: none;
+  }
 `;

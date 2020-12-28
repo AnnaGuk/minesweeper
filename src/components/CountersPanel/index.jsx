@@ -1,6 +1,10 @@
 import React from "react";
-import { Button } from "react95";
-import { StyledPanel, StyledCounter, SmileyButton } from "./styles";
+import {
+  StyledPanel,
+  StyledCounter,
+  SmileyButton,
+  StyledButton,
+} from "./styles";
 import smileyFace from "../../assets/smileyface.svg";
 import glassesFace from "../../assets/glassesface.svg";
 import cryFace from "../../assets/cryface.svg";
@@ -15,7 +19,7 @@ const CountersPanel = ({
   return (
     <StyledPanel variant="well">
       <StyledCounter value={minesNumber} size="sm" />
-      <Button
+      <StyledButton
         square
         onClick={() => dispatch({ type: "reset", variant: gameVariant })}
       >
@@ -29,7 +33,7 @@ const CountersPanel = ({
           }
           alt={gameState === "won" ? ";)" : gameState === "lost" ? ":(" : ":)"}
         />
-      </Button>
+      </StyledButton>
       <StyledCounter value={flagsNumber} size="sm" />
     </StyledPanel>
   );

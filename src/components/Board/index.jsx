@@ -34,6 +34,15 @@ const GameBoard = ({ board, dispatch, size, gameState, gameVariant }) => {
     }
   };
 
+  const onRightButtonClick = (e, row, col) => {
+    e.preventDefault();
+    dispatch({
+      type: "toggleFlag",
+      row: row,
+      col: col,
+    });
+  };
+
   return (
     <StyledWindow size={size}>
       <WindowHeader>Bugsweeper</WindowHeader>
@@ -58,12 +67,8 @@ const GameBoard = ({ board, dispatch, size, gameState, gameVariant }) => {
                     col: column.column,
                   })
                 }
-                onContextMenu={() =>
-                  dispatch({
-                    type: "toggleFlag",
-                    row: column.row,
-                    col: column.column,
-                  })
+                onContextMenu={(event) =>
+                  onRightButtonClick(event, column.row, column.column)
                 }
                 key={`button${id}`}
                 variant={column.isOpen ? "flat" : "default"}
