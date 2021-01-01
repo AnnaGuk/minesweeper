@@ -11,8 +11,12 @@ import numberSix from "../../assets/numbers/six.svg";
 import numberSeven from "../../assets/numbers/seven.svg";
 import CountersPanel from "../CountersPanel/index";
 import { BoardGrid, StyledWindow, ButtonIcon, SmallButton } from "./styles";
+import { GameContext } from "../../AppContext";
 
-const GameBoard = ({ board, dispatch, size, gameState, gameVariant }) => {
+const GameBoard = () => {
+  const [state, dispatch] = React.useContext(GameContext);
+  const { gameVariant, board } = state;
+
   const renderNumberSource = (num) => {
     switch (num) {
       case 1:
@@ -44,21 +48,15 @@ const GameBoard = ({ board, dispatch, size, gameState, gameVariant }) => {
   };
 
   return (
-    <StyledWindow size={size}>
+    <StyledWindow size={gameVariant}>
       <WindowHeader>Bugsweeper</WindowHeader>
       <WindowContent>
-        <CountersPanel
-          gameState={gameState}
-          minesNumber={10}
-          flagsNumber={0}
-          dispatch={dispatch}
-          gameVariant={gameVariant}
-        />
+        <CountersPanel />
         <BoardGrid>
           {board.map((row) =>
             row.map((column, id) => (
               <SmallButton
-                size={size}
+                size={gameVariant}
                 square
                 onClick={() =>
                   dispatch({

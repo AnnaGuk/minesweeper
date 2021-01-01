@@ -1,27 +1,20 @@
 import React from "react";
 import { AppBar, Button, ListItem } from "react95";
 import { StyledToolbar, StyledList } from "./styles";
-import { reducer, init } from "./reducer";
-import { renderBoard } from "./helpers";
+
 import GameBoard from "../Board/index";
+import { GameContext } from "../../AppContext";
 
 const Game = () => {
   const [openList, setOpenList] = React.useState(false);
-  const [gameVariant, setGameVariant] = React.useState("beginner");
-  const [gameState, setGameState] = React.useState("progress");
-
-  const initialState = renderBoard(gameVariant);
-
-  const [board, dispatch] = React.useReducer(reducer, initialState, init);
+  const [state, dispatch] = React.useContext(GameContext);
 
   const toggleListOpening = () => {
     setOpenList(!openList);
   };
 
-  const handleSizeChange = (variant) => {
-    setGameVariant(variant);
+  const handleSizeChange = (variant) =>
     dispatch({ type: "reset", variant: variant });
-  };
 
   return (
     <>
@@ -43,13 +36,7 @@ const Game = () => {
           )}
         </StyledToolbar>
       </AppBar>
-      <GameBoard
-        board={board}
-        dispatch={dispatch}
-        size={gameVariant}
-        gameState={gameState}
-        gameVariant={gameVariant}
-      />
+      <GameBoard />
     </>
   );
 };

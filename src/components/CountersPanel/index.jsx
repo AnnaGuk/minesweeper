@@ -8,14 +8,12 @@ import {
 import smileyFace from "../../assets/smileyface.svg";
 import glassesFace from "../../assets/glassesface.svg";
 import cryFace from "../../assets/cryface.svg";
+import { GameContext } from "../../AppContext";
 
-const CountersPanel = ({
-  gameState,
-  minesNumber,
-  flagsNumber,
-  dispatch,
-  gameVariant,
-}) => {
+const CountersPanel = () => {
+  const [state, dispatch] = React.useContext(GameContext);
+  const { minesNumber, gameVariant, flagsNumber } = state;
+
   return (
     <StyledPanel variant="well">
       <StyledCounter value={minesNumber} size="sm" />
@@ -25,13 +23,19 @@ const CountersPanel = ({
       >
         <SmileyButton
           src={
-            gameState === "won"
+            state.gameState === "won"
               ? glassesFace
-              : gameState === "lost"
+              : state.gameState === "lost"
               ? cryFace
               : smileyFace
           }
-          alt={gameState === "won" ? ";)" : gameState === "lost" ? ":(" : ":)"}
+          alt={
+            state.gameState === "won"
+              ? ";)"
+              : state.gameState === "lost"
+              ? ":("
+              : ":)"
+          }
         />
       </StyledButton>
       <StyledCounter value={flagsNumber} size="sm" />
