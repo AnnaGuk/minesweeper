@@ -12,8 +12,6 @@ const createInitState = (variant) => {
   };
 };
 
-export const initialState = createInitState("beginner");
-
 export const init = (variant) => {
   return createInitState(variant);
 };
