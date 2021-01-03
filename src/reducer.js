@@ -34,19 +34,25 @@ export const reducer = (state, action) => {
         ),
       };
     case "toggleFlag":
+      let flagsNum = 0;
       return {
         ...state,
         board: state.board.map((stateRow) =>
           stateRow.map((stateCol) => {
             if (stateCol.row === action.row && stateCol.column === action.col) {
-              return stateCol.isFlagged
-                ? { ...stateCol, isFlagged: false }
-                : { ...stateCol, isFlagged: true };
+              if (stateCol.isFlagged) {
+                flagsNum--;
+                return { ...stateCol, isFlagged: false };
+              } else {
+                flagsNum++;
+                return { ...stateCol, isFlagged: true };
+              }
             } else {
               return stateCol;
             }
           })
         ),
+        flagsNumber: state.flagsNumber + flagsNum,
       };
     case "reset":
       return init(action.variant);
