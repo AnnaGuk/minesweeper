@@ -29,7 +29,7 @@ export const ButtonIcon = styled.img`
 export const SmallButton = styled(Button)`
   width: ${({ size }) => (size === "expert" ? "25px" : "32px")};
   height: ${({ size }) => (size === "expert" ? "25px" : "32px")};
-  background-color: lightgrey;
+  background-color: ${({ affected }) => (affected ? "red" : "lightgrey")};
 
   &:after {
     content: none;

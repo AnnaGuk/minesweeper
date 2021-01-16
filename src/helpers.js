@@ -12,6 +12,7 @@ export const createBoard = (size) => {
         isOpen: false,
         row: i,
         column: j,
+        isColored: false,
       };
     }
   }

@@ -16,7 +16,7 @@ const CountersPanel = () => {
 
   return (
     <StyledPanel variant="well">
-      <StyledCounter value={minesNumber} size="sm" />
+      <StyledCounter value={minesNumber - flagsNumber} size="sm" />
       <StyledButton
         square
         onClick={() => dispatch({ type: "reset", variant: gameVariant })}

@@ -57,6 +57,7 @@ const GameBoard = () => {
             row.map((column, id) => (
               <SmallButton
                 size={gameVariant}
+                affected={column.isColored}
                 square
                 onClick={() =>
                   dispatch({

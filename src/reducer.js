@@ -16,20 +16,30 @@ export const init = (variant) => {
   return createInitState(variant);
 };
 
+const revealBoard = (board) => {
+  return board.map((stateRow) =>
+    stateRow.map((stateCol) => {
+      return { ...stateCol, isOpen: true };
+    })
+  );
+};
+
 export const reducer = (state, action) => {
   switch (action.type) {
     case "openField":
+      let status = "progress";
+      let updatedBoard = state.board;
+      if (!updatedBoard[action.row][action.col].isFlagged) {
+        if (updatedBoard[action.row][action.col].isBomb) {
+          status = "lost";
+          updatedBoard[action.row][action.col].isColored = true;
+          updatedBoard = revealBoard(updatedBoard);
+        } else updatedBoard[action.row][action.col].isOpen = true;
+      }
       return {
         ...state,
-        board: state.board.map((stateRow) =>
-          stateRow.map((stateCol) => {
-            if (stateCol.row === action.row && stateCol.column === action.col) {
-              return { ...stateCol, isOpen: true };
-            } else {
-              return stateCol;
-            }
-          })
-        ),
+        board: updatedBoard,
+        gameState: status,
       };
     case "toggleFlag":
       let flagsNum = 0;
@@ -37,7 +47,11 @@ export const reducer = (state, action) => {
         ...state,
         board: state.board.map((stateRow) =>
           stateRow.map((stateCol) => {
-            if (stateCol.row === action.row && stateCol.column === action.col) {
+            if (
+              stateCol.row === action.row &&
+              stateCol.column === action.col &&
+              !stateCol.isOpen
+            ) {
               if (stateCol.isFlagged) {
                 flagsNum--;
                 return { ...stateCol, isFlagged: false };
