@@ -9,6 +9,7 @@ import numberFour from "../../assets/numbers/four.svg";
 import numberFive from "../../assets/numbers/five.svg";
 import numberSix from "../../assets/numbers/six.svg";
 import numberSeven from "../../assets/numbers/seven.svg";
+import numberEight from "../../assets/numbers/eight.svg";
 import CountersPanel from "../CountersPanel/index";
 import { BoardGrid, StyledWindow, ButtonIcon, SmallButton } from "./styles";
 import { GameContext } from "../../AppContext";
@@ -33,6 +34,8 @@ const GameBoard = () => {
         return numberSix;
       case 7:
         return numberSeven;
+      case 8:
+        return numberEight;
       default:
         break;
     }

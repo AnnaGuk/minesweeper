@@ -123,3 +123,60 @@ export const renderBoard = (variant) => {
   const initialState = initBoard(bombCount, boardSize);
   return initialState;
 };
+
+export const revealBoard = (board) => {
+  return board.map((stateRow) =>
+    stateRow.map((stateCol) => {
+      return { ...stateCol, isOpen: true };
+    })
+  );
+};
+
+export const openEmpty = (x, y, board, variant) => {
+  const { boardSize } = getBoardSizeFromBoardVariant(variant);
+  const arrayToReveal = [];
+
+  //top
+  if (x > 0) {
+    arrayToReveal.push(board[x - 1][y]);
+  }
+  //top right
+  if (x > 0 && y < boardSize - 1) {
+    arrayToReveal.push(board[x - 1][y + 1]);
+  }
+  //right
+  if (y < boardSize - 1) {
+    arrayToReveal.push(board[x][y + 1]);
+  }
+  //bottom right
+  if (x < boardSize - 1 && y < boardSize - 1) {
+    arrayToReveal.push(board[x + 1][y + 1]);
+  }
+  //bottom
+  if (x < boardSize - 1) {
+    arrayToReveal.push(board[x + 1][y]);
+  }
+  //bottom left
+  if (x < boardSize - 1 && y > 0) {
+    arrayToReveal.push(board[x + 1][y - 1]);
+  }
+  //left
+  if (y > 0) {
+    arrayToReveal.push(board[x][y - 1]);
+  }
+  //top left
+  if (x > 0 && y > 0) {
+    arrayToReveal.push(board[x - 1][y - 1]);
+  }
+
+  arrayToReveal.map((data) => {
+    if (!data.isFlagged && !data.isOpen && !data.isBomb) {
+      board[data.row][data.column].isOpen = true;
+      if (data.isEmpty) {
+        openEmpty(data.row, data.column, board, variant);
+      }
+    }
+  });
+
+  return board;
+};

@@ -1,4 +1,9 @@
-import { renderBoard, getBoardSizeFromBoardVariant } from "./helpers";
+import {
+  renderBoard,
+  getBoardSizeFromBoardVariant,
+  revealBoard,
+  openEmpty,
+} from "./helpers";
 
 const createInitState = (variant) => {
   const { bombCount } = getBoardSizeFromBoardVariant(variant);
@@ -16,14 +21,6 @@ export const init = (variant) => {
   return createInitState(variant);
 };
 
-const revealBoard = (board) => {
-  return board.map((stateRow) =>
-    stateRow.map((stateCol) => {
-      return { ...stateCol, isOpen: true };
-    })
-  );
-};
-
 export const reducer = (state, action) => {
   switch (action.type) {
     case "openField":
@@ -34,6 +31,8 @@ export const reducer = (state, action) => {
           status = "lost";
           updatedBoard[action.row][action.col].isColored = true;
           updatedBoard = revealBoard(updatedBoard);
+        } else if (updatedBoard[action.row][action.col].isEmpty) {
+          openEmpty(action.row, action.col, state.board, state.gameVariant);
         } else updatedBoard[action.row][action.col].isOpen = true;
       }
       return {
@@ -43,6 +42,7 @@ export const reducer = (state, action) => {
       };
     case "toggleFlag":
       let flagsNum = 0;
+      let disarmedBombs = 0;
       return {
         ...state,
         board: state.board.map((stateRow) =>
@@ -54,9 +54,15 @@ export const reducer = (state, action) => {
             ) {
               if (stateCol.isFlagged) {
                 flagsNum--;
+                if (stateCol.isBomb) {
+                  disarmedBombs--;
+                }
                 return { ...stateCol, isFlagged: false };
               } else {
                 flagsNum++;
+                if (stateCol.isBomb) {
+                  disarmedBombs++;
+                }
                 return { ...stateCol, isFlagged: true };
               }
             } else {
@@ -65,6 +71,7 @@ export const reducer = (state, action) => {
           })
         ),
         flagsNumber: state.flagsNumber + flagsNum,
+        minesNumber: state.minesNumber - disarmedBombs,
       };
     case "reset":
       return init(action.variant);
