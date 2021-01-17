@@ -180,3 +180,39 @@ export const openEmpty = (x, y, board, variant) => {
 
   return board;
 };
+
+export const findUnrevealedCells = (board) => {
+  const arrayOfClosed = [];
+  board.map((row) =>
+    row.map((cell) => {
+      if (!cell.isOpen) {
+        arrayOfClosed.push(cell);
+      }
+    })
+  );
+  return arrayOfClosed;
+};
+
+export const findBugs = (board) => {
+  const arrayOfBugs = [];
+  board.map((row) =>
+    row.map((cell) => {
+      if (cell.isBomb) {
+        arrayOfBugs.push(cell);
+      }
+    })
+  );
+  return arrayOfBugs;
+};
+
+export const findFlags = (board) => {
+  const arrayOfFlags = [];
+  board.map((row) =>
+    row.map((cell) => {
+      if (cell.isFlagged) {
+        arrayOfFlags.push(cell);
+      }
+    })
+  );
+  return arrayOfFlags;
+};
