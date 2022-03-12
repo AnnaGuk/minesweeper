@@ -101,7 +101,6 @@ export const initBoard = (bombCount, boardSize) => {
   const board = createBoard(boardSize);
   const boardWithBombs = generateBombs(board, bombCount, boardSize);
   const finalBoard = countNeighbouringBombs(boardWithBombs, boardSize);
-  console.log(finalBoard);
   return finalBoard;
 };
 
