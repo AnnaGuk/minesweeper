@@ -12,7 +12,7 @@ import numberSeven from "../../assets/numbers/seven.svg";
 import numberEight from "../../assets/numbers/eight.svg";
 import CountersPanel from "../CountersPanel/index";
 import { BoardGrid, StyledWindow, ButtonIcon, SmallButton } from "./styles";
-import { GameContext } from "../../AppContext";
+import { GameContext } from "../../context/AppContext";
 
 const GameBoard = () => {
   const [state, dispatch] = React.useContext(GameContext);

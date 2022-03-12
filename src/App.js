@@ -5,7 +5,7 @@ import original from "react95/dist/themes/original";
 // original Windows95 font
 import ms_sans_serif from "react95/dist/fonts/ms_sans_serif.woff2";
 import ms_sans_serif_bold from "react95/dist/fonts/ms_sans_serif_bold.woff2";
-import { GameProvider } from "./AppContext";
+import { GameProvider } from "./context/AppContext";
 
 import Game from "./components/Game/index";
 

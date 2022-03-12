@@ -3,7 +3,7 @@ import { AppBar, Button, ListItem } from "react95";
 import { StyledToolbar, StyledList } from "./styles";
 
 import GameBoard from "../Board/index";
-import { GameContext } from "../../AppContext";
+import { GameContext } from "../../context/AppContext";
 
 const Game = () => {
   const [openList, setOpenList] = React.useState(false);

@@ -8,7 +8,7 @@ import {
 import smileyFace from "../../assets/smileyface.svg";
 import glassesFace from "../../assets/glassesface.svg";
 import cryFace from "../../assets/cryface.svg";
-import { GameContext } from "../../AppContext";
+import { GameContext } from "../../context/AppContext";
 
 const CountersPanel = () => {
   const [state, dispatch] = React.useContext(GameContext);
