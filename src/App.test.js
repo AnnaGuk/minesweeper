@@ -1,8 +1,25 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
+afterEach(cleanup);
+
+test("renders a game board", () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const Title = screen.getByText("Bugsweeper");
+  expect(Title).toBeInTheDocument();
+});
+
+test("switches board sizes", () => {
+  const game = render(<App />);
+  const modeButton = screen.getByText("Game size");
+
+  expect(game.container.querySelectorAll("#board > button")).toHaveLength(64);
+
+  fireEvent.click(modeButton);
+  fireEvent.click(screen.getByText("Intermediate"));
+  expect(game.container.querySelectorAll("#board > button")).toHaveLength(256);
+
+  fireEvent.click(modeButton);
+  fireEvent.click(screen.getByText("Expert"));
+  expect(game.container.querySelectorAll("#board > button")).toHaveLength(576);
 });

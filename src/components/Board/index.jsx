@@ -55,7 +55,7 @@ const GameBoard = () => {
       <WindowHeader>Bugsweeper</WindowHeader>
       <WindowContent>
         <CountersPanel />
-        <BoardGrid>
+        <BoardGrid id="board">
           {board.map((row) =>
             row.map((column, id) => (
               <SmallButton
